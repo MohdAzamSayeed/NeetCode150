@@ -1,0 +1,43 @@
+Project repository- 
+/app - application related code
+/data - data related segregation
+/vectorstore - related to RAG
+
+envirn- Python 3.12.1 (recreate envirn using requirements.txt)
+
+
+Code files
+I. app/ingestion.py
+Roles-  Accept file -> extract text -> chuck text
+functions
+1. load_document - function to load documents with langchain document loaders in multiple formats (PDF, TXT, CSV, Excel)
+2. chunk_documents - split the document into chucks
+
+II. app/embedding.py
+Roles- create a vector database based on provided chunks and save in FAISS VectorDB
+function - create_vector_store
+
+III. app/retrieval.py
+function- 
+get_retriever - Wrapper of Loads the vector DB retriever object for consumption
+
+IV. app/rag_pipeline.py
+funtion - create_rag_chain
+    
+This function initializes a ChatOpenAI instance with the GPT-4 model and builds a RetrievalQA chain.
+The chain leverages the provided retriever to fetch relevant documents and uses the LLM to generate
+answers based on both the retrieved context and its own reasoning. Source documents are returned
+alongside the answers for transparency and traceability.
+
+V. app/agents.py
+
+Agents based approach that plan-> retrieve-> reason-> validate
+creates a tool with name DocumentQA, its fuction is rag chain 
+An agent is initialized with DocumentQA tool , with llm gpt-4 as the brain and 
+agent="zero-shot-react-description", 
+This is the agent type. It means the agent decides which tool to use based on the tool descriptions,
+ without needing prior examples (zero-shot).
+
+VI. app/safety.py
+LLm guardrail prompt with validate input based on the length
+
